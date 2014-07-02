@@ -41,7 +41,7 @@ define( function( require ) {
     this.skateboard = screen === 'motion';
     this.accelerometer = screen === 'acceleration';
     this.friction = screen === 'motion' ? 0 : MotionConstants.MAX_FRICTION / 2;
-    this.stack = new ObservableArray();
+    this.stack = new ObservableArray().setID( 'stack' );
 
     //Observable values, all values are in MKS units (meters, kg, sec, Newtons, etc.)
     PropertySet.call( this, {
@@ -80,6 +80,10 @@ define( function( require ) {
       //TODO: Perhaps a DerivedProperty would be more suitable instead of duplicating/synchronizing this value
       stackSize: 1
     } );
+
+    //Do not send PhET events for time changing
+    this.timeProperty.setSendPhetEvents( false );
+    this.timeSinceFallenProperty.setSendPhetEvents( false );
 
     //Zero out the applied force when the last object is removed.  Necessary to remove the force applied with the slider tweaker buttons.  See #37
     this.stack.lengthProperty.link( function( length ) { if ( length === 0 ) { motionModel.appliedForce = 0; } } );
@@ -202,15 +206,9 @@ define( function( require ) {
              this.sign( b ) === 'negative' && this.sign( a ) === 'positive';
     },
 
-    count: 0,
     //Update the physics
     step: function( dt ) {
 
-      this.count++;
-
-      if ( this.count % 60 === 0 ) {
-        console.log( this.getState() );
-      }
       //There are more than 2x as many frames on html as we were getting on Java, so have to decrease the dt to compensate
       dt = dt / 2.3;
       this.time = this.time + dt;

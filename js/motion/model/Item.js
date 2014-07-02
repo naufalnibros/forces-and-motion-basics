@@ -51,6 +51,9 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, Item, {
+    toString: function() {
+      return this.name;
+    },
     get: function() {
       var parent = PropertySet.prototype.get.call( this );
       parent.image = this.image;

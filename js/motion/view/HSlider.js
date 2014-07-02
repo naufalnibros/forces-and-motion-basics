@@ -37,7 +37,7 @@ define( function( require ) {
    */
   function HSlider( min, max, width, property, speedClassificationProperty, disableLeftProperty, disableRightProperty, options ) {
     var slider = this;
-    this.enabledProperty = new Property( true );
+    this.enabledProperty = new Property( true ).setID( 'slider-enabled' );
     this.options = _.extend( {zeroOnRelease: false}, options || {} );
 
     speedClassificationProperty.link( function( speedClassification ) {

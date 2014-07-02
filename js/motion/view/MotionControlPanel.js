@@ -48,14 +48,15 @@ define( function( require ) {
 
     var fontSize = 18;
 
-    var toElement = function( text, propertyName, options ) {
+    var toElement = function( text, propertyName, checkboxID, options ) {
       options = _.extend( {indent: 0}, options );
       var textNode = new Text( text, {font: new PhetFont( fontSize )} );
       return {
         //TODO: Why is this immense spacing necessary here?
         content: options.icon ? new HBox( {spacing: 10, children: [  textNode, options.icon]} ) : textNode,
         property: model.property( propertyName ),
-        indent: options.indent
+        indent: options.indent,
+        id: checkboxID
       };
     };
 
@@ -82,7 +83,7 @@ define( function( require ) {
       //Create the friction slider and its labels.
       // Add invisible symmetric ticks + labels so the slider will be perfectly centered.  A better way to do this would be just to line things up based on the track of the slider,
       // but this makes it work with VBox/HBox
-      var frictionSlider = new HSlider( 0, MotionConstants.MAX_FRICTION, 150, model.frictionProperty, new Property( 'WITHIN_ALLOWED_RANGE' ), null, null, {zeroOnRelease: false} ).
+      var frictionSlider = new HSlider( 0, MotionConstants.MAX_FRICTION, 150, model.frictionProperty, new Property( 'WITHIN_ALLOWED_RANGE' ).setID( 'disableLeftProperty' ), null, null, {zeroOnRelease: false} ).
         addTick( 0, createTick( noneString, true ) ).addTick( 1, createTick( lotsString, true ) ).
         addTick( 0, createTick( lotsString, false ) ).addTick( 1, createTick( noneString, false ) );
       var frictionLabel = new Text( frictionString, new PhetFont( { size: fontSize, weight: 'bold' } ) );
@@ -96,28 +97,28 @@ define( function( require ) {
       children: model.screen === 'motion' ?
                 [ new VerticalCheckBoxGroup(
                   [
-                    toElement( forceString, 'showForce', {icon: arrowIcon()} ),
-                    toElement( valuesString, 'showValues', {indent: indent} ),
-                    toElement( massesString, 'showMasses' ),
-                    toElement( speedString, 'showSpeed', {icon: speedometerIcon()} )
+                    toElement( forceString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
+                    toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
+                    toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
+                    toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} )
                   ], {fill: '#e3e980'} )] :
                 model.screen === 'friction' ?
                 [ new VerticalCheckBoxGroup(
                   [
-                    toElement( forcesString, 'showForce', {icon: arrowIcon()} ),
-                    toElement( sumOfForcesString, 'showSumOfForces', {indent: indent} ),
-                    toElement( valuesString, 'showValues', {indent: indent} ),
-                    toElement( massesString, 'showMasses' ),
-                    toElement( speedString, 'showSpeed', {icon: speedometerIcon()} )
+                    toElement( forcesString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
+                    toElement( sumOfForcesString, 'showSumOfForces', 'showSumOfForcesCheckBox', {indent: indent} ),
+                    toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
+                    toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
+                    toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} )
                   ], {fill: '#e3e980'} ), spacer( 12, 12 ), createFrictionSlider()  ] :
                 [ new VerticalCheckBoxGroup(
                   [
-                    toElement( forcesString, 'showForce', {icon: arrowIcon()} ),
-                    toElement( sumOfForcesString, 'showSumOfForces', {indent: indent} ),
-                    toElement( valuesString, 'showValues', {indent: indent} ),
-                    toElement( massesString, 'showMasses' ),
-                    toElement( speedString, 'showSpeed', {icon: speedometerIcon()} ),
-                    toElement( accelerationString, 'showAcceleration', {icon: accelerometerIcon()} )
+                    toElement( forcesString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
+                    toElement( sumOfForcesString, 'showSumOfForces', 'showSumOfForcesCheckBox', {indent: indent} ),
+                    toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
+                    toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
+                    toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} ),
+                    toElement( accelerationString, 'showAcceleration', 'showAccelerationCheckBox', {icon: accelerometerIcon()} )
                   ], {fill: '#e3e980'} ), spacer( 12, 12 ), createFrictionSlider()  ]
     } );
     var panelNode = new Panel( controlPanel, {xMargin: 10, yMargin: 10, fill: '#e3e980'} );

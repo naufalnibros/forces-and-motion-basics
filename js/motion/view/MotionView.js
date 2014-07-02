@@ -145,7 +145,7 @@ define( function( require ) {
 
     //Move away from the stack if the stack getting too high.  No need to record this in the model since it will always be caused deterministically by the model.
     //Use Tween.JS to smoothly animate
-    var itemsCentered = new Property( true );
+    var itemsCentered = new Property( true ).setID( 'itemsCentered' );
     model.stack.lengthProperty.link( function() {
 
       //Move both the accelerometer and speedometer if the stack is getting too high, based on the height of items in the stack
@@ -174,7 +174,7 @@ define( function( require ) {
 
     //Reset all button goes beneath the control panel
     var resetButton = new ResetAllButton( {
-      listener: model.reset.bind( model ),
+      listener: phetEvents.wrap( 'resetAllButtonPressed', model.reset.bind( model ) ),
       scale: 1.13
     } ).mutate( {centerX: controlPanel.centerX, top: controlPanel.bottom + 5} );
     this.addChild( resetButton );
@@ -218,11 +218,11 @@ define( function( require ) {
     var arrowScale = 0.3;
 
     //Round the forces so that the sum is correct in the display, see https://github.com/phetsims/forces-and-motion-basics/issues/72 and  https://github.com/phetsims/forces-and-motion-basics/issues/74
-    var roundedAppliedForceProperty = new DerivedProperty( [model.appliedForceProperty], function( appliedForce ) {return Math.round( appliedForce );} );
-    var roundedFrictionForceProperty = new DerivedProperty( [model.frictionForceProperty], function( frictionForce ) { return Math.round( frictionForce ); } );
+    var roundedAppliedForceProperty = new DerivedProperty( [model.appliedForceProperty], function( appliedForce ) {return Math.round( appliedForce );} ).setID( 'roundedAppliedForce' );
+    var roundedFrictionForceProperty = new DerivedProperty( [model.frictionForceProperty], function( frictionForce ) { return Math.round( frictionForce ); } ).setID( 'roundedFrictionForce' );
 
     //Only update the sum force arrow after both friction and applied force changed, so we don't get partial updates, see https://github.com/phetsims/forces-and-motion-basics/issues/83
-    var roundedSumProperty = new Property( roundedAppliedForceProperty.get() + roundedFrictionForceProperty.get() );
+    var roundedSumProperty = new Property( roundedAppliedForceProperty.get() + roundedFrictionForceProperty.get() ).setID( 'roundedSumProperty' );
     model.on( 'stepped', function() { roundedSumProperty.set( roundedAppliedForceProperty.get() + roundedFrictionForceProperty.get() ); } );
 
     this.sumArrow = new ReadoutArrow( sumOfForcesString, '#96c83c', this.layoutBounds.width / 2, 230, roundedSumProperty, model.showValuesProperty, {labelPosition: 'top', arrowScale: arrowScale} );
@@ -234,7 +234,7 @@ define( function( require ) {
     //If the (rounded) sum of forces arrow is zero, then show the text "Sum of Forces = 0", see #76
     new DerivedProperty( [model.showForceProperty, model.showSumOfForcesProperty, roundedSumProperty], function( showForce, showSumOfForces, sumOfForces ) {
       return showForce && showSumOfForces && sumOfForces === 0;
-    } ).linkAttribute( motionView.sumOfForcesText, 'visible' );
+    } ).setID( 'sumOfForcesZero' ).linkAttribute( motionView.sumOfForcesText, 'visible' );
     this.appliedForceArrow = new ReadoutArrow( appliedForceString, '#e66e23', this.layoutBounds.width / 2, 280, roundedAppliedForceProperty, model.showValuesProperty, {labelPosition: 'side', arrowScale: arrowScale} );
     this.frictionArrow = new ReadoutArrow( frictionForceString, 'red', this.layoutBounds.width / 2, 280, roundedFrictionForceProperty, model.showValuesProperty, {labelPosition: 'side', arrowScale: arrowScale} );
     this.addChild( this.sumArrow );
@@ -245,7 +245,7 @@ define( function( require ) {
     //Whichever arrow is smaller should be in front (in z-ordering)
     var frictionLargerProperty = new DerivedProperty( [roundedAppliedForceProperty, roundedFrictionForceProperty], function( roundedAppliedForce, roundedFrictionForce ) {
       return Math.abs( roundedFrictionForce ) > Math.abs( roundedAppliedForce );
-    } );
+    } ).setID( 'frictionLargerProperty' );
     frictionLargerProperty.link( function( frictionLarger ) {
       var node = frictionLarger ? motionView.appliedForceArrow : motionView.frictionArrow;
       node.moveToFront();
