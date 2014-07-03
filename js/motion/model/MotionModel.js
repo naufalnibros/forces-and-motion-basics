@@ -81,6 +81,11 @@ define( function( require ) {
       stackSize: 1
     } );
 
+    //Indicate the model state when the applied force changes
+    this.appliedForceProperty.link( function( appliedForce ) {
+      phetEvents.trigger( 'modelState', {state: motionModel.getState()} );
+    } );
+
     //Do not send PhET events for time changing
     this.timeProperty.setSendPhetEvents( false );
     this.timeSinceFallenProperty.setSendPhetEvents( false );
@@ -325,7 +330,7 @@ define( function( require ) {
       var motionModel = this;
       return {
         properties: this.get(),
-        stack: motionModel.stack.getArray().map( function( item ) {return item.get();} )
+        stack: motionModel.stack.getArray().map( function( item ) {return item.get().name;} ).join( ',' )
       };
     }
   } );
