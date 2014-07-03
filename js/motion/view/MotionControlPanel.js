@@ -118,7 +118,7 @@ define( function( require ) {
                             toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
                             toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} ),
                             toElement( accelerationString, 'showAcceleration', 'showAccelerationCheckBox', {icon: accelerometerIcon()} )
-                          ], {fill: '#e3e980'} )
+                          ], {fill: '#e3e980'} );
     var controlPanel = new VBox( {
       align: 'center',
       children: model.screen === 'motion' ? [checkBoxGroup] :
