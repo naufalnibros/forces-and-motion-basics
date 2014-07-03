@@ -51,6 +51,9 @@ define( function( require ) {
     var toElement = function( text, propertyName, checkboxID, options ) {
       options = _.extend( {indent: 0}, options );
       var textNode = new Text( text, {font: new PhetFont( fontSize )} );
+      model.appliedForceProperty.link( function( appliedForce ) {
+        textNode.fill = appliedForce === 0 ? 'black' : 'gray';
+      } );
       return {
         //TODO: Why is this immense spacing necessary here?
         content: options.icon ? new HBox( {spacing: 10, children: [  textNode, options.icon]} ) : textNode,
@@ -92,37 +95,44 @@ define( function( require ) {
     };
 
     var indent = 24;
+    var checkBoxGroup = model.screen === 'motion' ? new VerticalCheckBoxGroup(
+      [
+        toElement( forceString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
+        toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
+        toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
+        toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} )
+      ], {fill: '#e3e980'} ) :
+                        model.screen === 'friction' ? new VerticalCheckBoxGroup(
+                          [
+                            toElement( forcesString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
+                            toElement( sumOfForcesString, 'showSumOfForces', 'showSumOfForcesCheckBox', {indent: indent} ),
+                            toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
+                            toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
+                            toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} )
+                          ], {fill: '#e3e980'} ) :
+                        new VerticalCheckBoxGroup(
+                          [
+                            toElement( forcesString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
+                            toElement( sumOfForcesString, 'showSumOfForces', 'showSumOfForcesCheckBox', {indent: indent} ),
+                            toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
+                            toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
+                            toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} ),
+                            toElement( accelerationString, 'showAcceleration', 'showAccelerationCheckBox', {icon: accelerometerIcon()} )
+                          ], {fill: '#e3e980'} )
     var controlPanel = new VBox( {
       align: 'center',
-      children: model.screen === 'motion' ?
-                [ new VerticalCheckBoxGroup(
-                  [
-                    toElement( forceString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
-                    toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
-                    toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
-                    toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} )
-                  ], {fill: '#e3e980'} )] :
-                model.screen === 'friction' ?
-                [ new VerticalCheckBoxGroup(
-                  [
-                    toElement( forcesString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
-                    toElement( sumOfForcesString, 'showSumOfForces', 'showSumOfForcesCheckBox', {indent: indent} ),
-                    toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
-                    toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
-                    toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} )
-                  ], {fill: '#e3e980'} ), spacer( 12, 12 ), createFrictionSlider()  ] :
-                [ new VerticalCheckBoxGroup(
-                  [
-                    toElement( forcesString, 'showForce', 'showForceCheckBox', {icon: arrowIcon()} ),
-                    toElement( sumOfForcesString, 'showSumOfForces', 'showSumOfForcesCheckBox', {indent: indent} ),
-                    toElement( valuesString, 'showValues', 'showValuesCheckBox', {indent: indent} ),
-                    toElement( massesString, 'showMasses', 'showMassesCheckBox' ),
-                    toElement( speedString, 'showSpeed', 'showSpeedCheckBox', {icon: speedometerIcon()} ),
-                    toElement( accelerationString, 'showAcceleration', 'showAccelerationCheckBox', {icon: accelerometerIcon()} )
-                  ], {fill: '#e3e980'} ), spacer( 12, 12 ), createFrictionSlider()  ]
+      children: model.screen === 'motion' ? [checkBoxGroup] :
+                model.screen === 'friction' ? [ checkBoxGroup, spacer( 12, 12 ), createFrictionSlider()  ] :
+                [ checkBoxGroup, spacer( 12, 12 ), createFrictionSlider()  ]
     } );
     var panelNode = new Panel( controlPanel, {xMargin: 10, yMargin: 10, fill: '#e3e980'} );
     this.addChild( panelNode.mutate( { left: 981 - panelNode.width - 5, top: 5} ) );
+
+    checkBoxGroup.checkBoxes.forEach( function( checkBox ) {
+      model.appliedForceProperty.link( function( appliedForce ) {
+        checkBox.enabled = appliedForce === 0;
+      } );
+    } );
   }
 
   return inherit( Node, MotionControlPanel );
