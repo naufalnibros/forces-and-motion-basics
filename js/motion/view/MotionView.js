@@ -37,6 +37,7 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var ArrowButton = require( 'SCENERY_PHET/ArrowButton' );
   var skateboardImage = require( 'image!FORCES_AND_MOTION_BASICS/skateboard.png' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
 
   /**
    * Constructor for the MotionView
@@ -259,6 +260,26 @@ define( function( require ) {
 
     model.showForceProperty.linkAttribute( this.appliedForceArrow, 'visible' );
     model.showForceProperty.linkAttribute( this.frictionArrow, 'visible' );
+
+    //Stop button
+    var stopButtonContentText = new Text( 'Stop', {font: new PhetFont( 22 )} );
+    var stopButton = new RoundPushButton( {
+      baseColor: 'red',
+      content: stopButtonContentText,
+      right: resetButton.left - 24,
+      centerY: resetButton.centerY,
+      listener: function() {
+        model.velocity = 0;
+      }
+    } );
+    model.velocityProperty.link( function( velocity ) {
+      var moving = velocity !== 0;
+      stopButton.opacity = moving ? 1 : 0.3;
+      stopButton.pickable = moving;
+      stopButtonContentText.fill = moving ? 'black' : 'gray';
+      stopButton.baseColor = moving ? 'red' : 'white';
+    } );
+    this.addChild( stopButton );
 
     //After the view is constructed, move one of the blocks to the top of the stack.
     model.viewInitialized( this );

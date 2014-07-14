@@ -51,8 +51,8 @@ define( function( require ) {
     var toElement = function( text, propertyName, checkboxID, options ) {
       options = _.extend( {indent: 0}, options );
       var textNode = new Text( text, {font: new PhetFont( fontSize )} );
-      model.appliedForceProperty.link( function( appliedForce ) {
-        textNode.fill = appliedForce === 0 ? 'black' : 'gray';
+      model.velocityProperty.link( function( velocity ) {
+        textNode.fill = velocity === 0 ? 'black' : 'gray';
       } );
       return {
         //TODO: Why is this immense spacing necessary here?
@@ -89,6 +89,12 @@ define( function( require ) {
       var frictionSlider = new HSlider( 0, MotionConstants.MAX_FRICTION, 150, model.frictionProperty, new Property( 'WITHIN_ALLOWED_RANGE' ).setID( 'disableLeftProperty' ), null, null, {zeroOnRelease: false} ).
         addTick( 0, createTick( noneString, true ) ).addTick( 1, createTick( lotsString, true ) ).
         addTick( 0, createTick( lotsString, false ) ).addTick( 1, createTick( noneString, false ) );
+
+      model.velocityProperty.link( function( velocity ) {
+        var stopped = velocity === 0;
+        frictionSlider.enabled = stopped;
+      } );
+
       var frictionLabel = new Text( frictionString, new PhetFont( { size: fontSize, weight: 'bold' } ) );
 
       return new VBox( {spacing: -8, children: [frictionLabel , frictionSlider]} );
@@ -129,8 +135,8 @@ define( function( require ) {
     this.addChild( panelNode.mutate( { left: 981 - panelNode.width - 5, top: 5} ) );
 
     checkBoxGroup.checkBoxes.forEach( function( checkBox ) {
-      model.appliedForceProperty.link( function( appliedForce ) {
-        checkBox.enabled = appliedForce === 0;
+      model.velocityProperty.link( function( velocity ) {
+        checkBox.enabled = velocity === 0;
       } );
     } );
   }
