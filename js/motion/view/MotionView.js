@@ -271,6 +271,7 @@ define( function( require ) {
       listener: function() {
         phetEvents.start( 'stopButtonPressed' );
         model.velocity = 0;
+        model.appliedForce = 0;
         phetEvents.end();
       }
     } );
