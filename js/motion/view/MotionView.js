@@ -269,7 +269,9 @@ define( function( require ) {
       right: resetButton.left - 24,
       centerY: resetButton.centerY,
       listener: function() {
+        phetEvents.start( 'stopButtonPressed' );
         model.velocity = 0;
+        phetEvents.end();
       }
     } );
     model.velocityProperty.link( function( velocity ) {
