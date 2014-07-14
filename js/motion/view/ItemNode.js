@@ -19,6 +19,7 @@ define( function( require ) {
   var massDisplayPattern = require( 'string!FORCES_AND_MOTION_BASICS/massDisplay.pattern' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var platform = require( 'PHET_CORE/platform' );
+  var Property = require( 'AXON/Property' );
 
   //Workaround for https://github.com/phetsims/scenery/issues/108
   var IDENTITY = Matrix3.scaling( 1, 1 );
@@ -38,6 +39,18 @@ define( function( require ) {
     var itemNode = this;
     this.item = item;
     Node.call( this, {x: item.position.x, y: item.position.y, scale: item.imageScale, cursor: 'pointer', rendererOptions: { cssTransform: true } } );
+
+    //Don't allow the user to drag the item while the skateboard is moving
+    model.velocityProperty.link( function( velocity ) {
+      var stopped = (velocity === 0);
+      itemNode.pickable = stopped;
+    } );
+
+    //Show the item as grayed out while the skateboard is moving
+    Property.multilink( [model.velocityProperty, item.onBoardProperty], function( velocity, onBoard ) {
+      var stopped = (velocity === 0);
+      itemNode.opacity = (stopped || onBoard) ? 1 : 0.3;
+    } );
 
     //Work around issue where the images are getting corrupted in Firefox, see #38
     if ( platform.firefox ) {
