@@ -51,9 +51,6 @@ define( function( require ) {
     var toElement = function( text, propertyName, checkboxID, options ) {
       options = _.extend( {indent: 0}, options );
       var textNode = new Text( text, {font: new PhetFont( fontSize )} );
-      model.velocityProperty.link( function( velocity ) {
-        textNode.fill = velocity === 0 ? 'black' : 'gray';
-      } );
       return {
         //TODO: Why is this immense spacing necessary here?
         content: options.icon ? new HBox( {spacing: 10, children: [  textNode, options.icon]} ) : textNode,
@@ -133,12 +130,6 @@ define( function( require ) {
     } );
     var panelNode = new Panel( controlPanel, {xMargin: 10, yMargin: 10, fill: '#e3e980'} );
     this.addChild( panelNode.mutate( { left: 981 - panelNode.width - 5, top: 5} ) );
-
-    checkBoxGroup.checkBoxes.forEach( function( checkBox ) {
-      model.velocityProperty.link( function( velocity ) {
-        checkBox.enabled = velocity === 0;
-      } );
-    } );
   }
 
   return inherit( Node, MotionControlPanel );
