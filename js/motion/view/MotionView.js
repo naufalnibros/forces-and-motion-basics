@@ -147,6 +147,7 @@ define( function( require ) {
     //Move away from the stack if the stack getting too high.  No need to record this in the model since it will always be caused deterministically by the model.
     //Use Tween.JS to smoothly animate
     var itemsCentered = new Property( true ).setID( 'itemsCentered' );
+    itemsCentered.setSendPhetEvents( false );
     model.stack.lengthProperty.link( function() {
 
       //Move both the accelerometer and speedometer if the stack is getting too high, based on the height of items in the stack
@@ -221,10 +222,13 @@ define( function( require ) {
     //Round the forces so that the sum is correct in the display, see https://github.com/phetsims/forces-and-motion-basics/issues/72 and  https://github.com/phetsims/forces-and-motion-basics/issues/74
     var roundedAppliedForceProperty = new DerivedProperty( [model.appliedForceProperty], function( appliedForce ) {return Math.round( appliedForce );} ).setID( 'roundedAppliedForce' );
     var roundedFrictionForceProperty = new DerivedProperty( [model.frictionForceProperty], function( frictionForce ) { return Math.round( frictionForce ); } ).setID( 'roundedFrictionForce' );
+    roundedFrictionForceProperty.setSendPhetEvents( false );
+    roundedAppliedForceProperty.setSendPhetEvents( false );
 
     //Only update the sum force arrow after both friction and applied force changed, so we don't get partial updates, see https://github.com/phetsims/forces-and-motion-basics/issues/83
     var roundedSumProperty = new Property( roundedAppliedForceProperty.get() + roundedFrictionForceProperty.get() ).setID( 'roundedSumProperty' );
     model.on( 'stepped', function() { roundedSumProperty.set( roundedAppliedForceProperty.get() + roundedFrictionForceProperty.get() ); } );
+    roundedSumProperty.setSendPhetEvents( false );
 
     this.sumArrow = new ReadoutArrow( sumOfForcesString, '#96c83c', this.layoutBounds.width / 2, 230, roundedSumProperty, model.showValuesProperty, {labelPosition: 'top', arrowScale: arrowScale} );
     model.multilink( ['showForce', 'showSumOfForces'], function( showForce, showSumOfForces ) {
@@ -251,6 +255,7 @@ define( function( require ) {
       var node = frictionLarger ? motionView.appliedForceArrow : motionView.frictionArrow;
       node.moveToFront();
     } );
+    frictionLargerProperty.setSendPhetEvents( false );
 
     //On the motion screens, when the 'Friction' label overlaps the force vector it should be displaced vertically
     model.multilink( ['appliedForce', 'frictionForce'], function( appliedForce, frictionForce ) {
