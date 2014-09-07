@@ -38,7 +38,10 @@ define( function( require ) {
   function HSlider( min, max, width, property, speedClassificationProperty, disableLeftProperty, disableRightProperty, options ) {
     var slider = this;
     this.enabledProperty = new Property( true ).setID( 'slider-enabled' );
-    this.options = _.extend( {zeroOnRelease: false}, options || {} );
+    this.options = _.extend( {
+      zeroOnRelease: false,
+      componentID: ''
+    }, options || {} );
 
     speedClassificationProperty.link( function( speedClassification ) {
       if ( speedClassification !== 'WITHIN_ALLOWED_RANGE' ) {
@@ -113,11 +116,15 @@ define( function( require ) {
           if ( disableLeftProperty && disableLeftProperty.value ) {
             result = Math.max( 0, result );
           }
+          phetEvents.start( 'slider-knob-dragged', {componentID: options.componentID} );
           property.value = result;
+          phetEvents.end();
         },
         end: function() {
           if ( slider.options.zeroOnRelease ) {
+            phetEvents.start( 'slider-knob-released', {componentID: options.componentID} );
             property.value = 0;
+            phetEvents.end();
           }
         }}
     );

@@ -94,7 +94,12 @@ define( function( require ) {
       return fallen && fallenDirection === 'right';
     } );
     var sliderLabel = new Text( appliedForceString, {font: new PhetFont( 22 ), centerX: width / 2, y: 430} );
-    var slider = new HSlider( -500, 500, 300, model.appliedForceProperty, model.speedClassificationProperty, disableLeftProperty, disableRightProperty, {zeroOnRelease: true, centerX: width / 2 + 1, y: 535} ).addNormalTicks();
+    var slider = new HSlider( -500, 500, 300, model.appliedForceProperty, model.speedClassificationProperty, disableLeftProperty, disableRightProperty, {
+      zeroOnRelease: true,
+      centerX: width / 2 + 1,
+      y: 535,
+      componentID: 'forceSlider'
+    } ).addNormalTicks();
 
     this.addChild( sliderLabel );
     this.addChild( slider );
@@ -120,7 +125,9 @@ define( function( require ) {
 
     //Show left arrow button 'tweaker' to change the applied force in increments of 50
     var leftArrowButton = new ArrowButton( 'left', function() {
+      phetEvents.start( 'left-arrow-button-pressed' );
       model.appliedForce = Math.max( model.appliedForce - 50, -500 );
+      phetEvents.end();
     }, {rectangleYMargin: 7, rectangleXMargin: 10, right: this.textPanelNode.left - 6, centerY: this.textPanelNode.centerY} );
 
     //Do not allow the user to apply a force that would take the object beyond its maximum velocity
@@ -129,7 +136,9 @@ define( function( require ) {
 
     //Show right arrow button 'tweaker' to change the applied force in increments of 50
     var rightArrowButton = new ArrowButton( 'right', function() {
+      phetEvents.start( 'right-arrow-button-pressed' );
       model.appliedForce = Math.min( model.appliedForce + 50, 500 );
+      phetEvents.end();
     }, {rectangleYMargin: 7, rectangleXMargin: 10, left: this.textPanelNode.right + 6, centerY: this.textPanelNode.centerY} );
 
     //Do not allow the user to apply a force that would take the object beyond its maximum velocity
