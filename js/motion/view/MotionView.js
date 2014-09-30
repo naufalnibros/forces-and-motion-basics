@@ -50,7 +50,7 @@ define( function( require ) {
     this.model = model;
 
     //Call super constructor
-    ScreenView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, {renderer: 'svg', layoutBounds: this.layoutBounds} );
 
     //Variables for this constructor, for convenience
     var motionView = this;
