@@ -116,15 +116,15 @@ define( function( require ) {
           if ( disableLeftProperty && disableLeftProperty.value ) {
             result = Math.max( 0, result );
           }
-          phetEvents.start( 'slider-knob-dragged', {componentID: options.componentID} );
+          phet.arch.start( 'slider-knob-dragged', {componentID: options.componentID} );
           property.value = result;
-          phetEvents.end();
+          phet.arch.end();
         },
         end: function() {
           if ( slider.options.zeroOnRelease ) {
-            phetEvents.start( 'slider-knob-released', {componentID: options.componentID} );
+            phet.arch.start( 'slider-knob-released', {componentID: options.componentID} );
             property.value = 0;
-            phetEvents.end();
+            phet.arch.end();
           }
         }}
     );

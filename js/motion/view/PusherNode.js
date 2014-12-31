@@ -152,17 +152,17 @@ define( function( require ) {
 
         //Only apply a force if the pusher is not fallen, see #48
         if ( !model.fallen ) {
-          phetEvents.start( 'dragged-mannequin' );
+          phet.arch.start( 'dragged-mannequin' );
           model.appliedForce = clampedAppliedForce;
-          phetEvents.end();
+          phet.arch.end();
         }
       },
 
       start: function() {},
       end: function() {
-        phetEvents.start( 'dropped-mannequin' );
+        phet.arch.start( 'dropped-mannequin' );
         model.appliedForce = 0;
-        phetEvents.end();
+        phet.arch.end();
       }
     } );
     this.addInputListener( listener );
