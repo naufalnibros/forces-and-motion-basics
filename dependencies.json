@@ -12,8 +12,8 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "00a5a797619d575e51fc1aa766328b8c5ceb55f0",
-    "branch": "master"
+    "sha": "5a9133c82ce722397513526f4b9f7f2626a8cc72",
+    "branch": "opacity-1"
   },
   "scenery-phet": {
     "sha": "016a7ff38fdcce3ac4924cb942c1a57c81c4f755",
@@ -56,8 +56,8 @@
     "branch": "master"
   },
   "forces-and-motion-basics": {
-    "sha": "5384f3b148ab65584d0281e88705fe70540c2f33",
-    "branch": "ocad-day-1"
+    "sha": "66de44f67a9b83f8665226aa4c43e43df3f264d7",
+    "branch": "ocad-day-2"
   },
-  "comment": "# forces-and-motion-basics 1.1.5-dev.5 Fri Feb 27 2015 10:20:02 GMT-0500 (EST)"
+  "comment": "# forces-and-motion-basics 1.1.5-dev.10 Fri Feb 27 2015 14:35:11 GMT-0500 (EST)"
 }
