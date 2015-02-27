@@ -106,30 +106,6 @@ define( function( require ) {
         }
       }
     } );
-
-    var t = Timer.setInterval( function() {
-      var node = document.getElementById( 'textNode-0' );
-      if ( node ) {
-        Timer.clearInterval( t );
-
-        node.addEventListener( 'keyup', function( e ) {
-          var keyCode = e.which || e.keyCode;
-          if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
-            var activeButton = model.running ? pauseButton : goButton;
-            activeButton.buttonModel.down = false;
-            activeButton.buttonModel.over = false;
-          }
-        } );
-        node.addEventListener( 'keydown', function( e ) {
-          var keyCode = e.which || e.keyCode;
-          if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
-            var activeButton = model.running ? pauseButton : goButton;
-            activeButton.buttonModel.over = true;
-            activeButton.buttonModel.down = true;
-          }
-        } );
-      }
-    }, 16 );
   }
 
   return inherit( ToggleNode, GoPauseButton );
