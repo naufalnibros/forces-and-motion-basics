@@ -16,9 +16,9 @@ define( function( require ) {
   var blueWinsString = require( 'string!FORCES_AND_MOTION_BASICS/blueWins' );
   var redWinsString = require( 'string!FORCES_AND_MOTION_BASICS/redWins' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
 
   /**
-
    * Constructor for FlagNode
    *
    * @param {MotionModel} model the model for the entire 'motion', 'friction' or 'acceleration' screen
@@ -31,8 +31,19 @@ define( function( require ) {
     this.model = model;
     Node.call( this );
 
-    var text = new Text( model.cart.x < 0 ? blueWinsString : redWinsString, { font: new PhetFont( 32 ), fill: 'white' } );
-    this.path = new Path( null, { fill: model.cart.x < 0 ? 'blue' : 'red', stroke: 'black', lineWidth: 2, centerX: 0, centerY: 0 } );
+    var ariaText = model.cart.x < 0 ? 'The left team has won!' : 'The right team has won!';
+    AriaSpeech.setText( ariaText );
+    var text = new Text( model.cart.x < 0 ? blueWinsString : redWinsString, {
+      font: new PhetFont( 32 ),
+      fill: 'white'
+    } );
+    this.path = new Path( null, {
+      fill: model.cart.x < 0 ? 'blue' : 'red',
+      stroke: 'black',
+      lineWidth: 2,
+      centerX: 0,
+      centerY: 0
+    } );
     this.addChild( this.path );
 
     //Shrink the text to fit on the flag if necessary

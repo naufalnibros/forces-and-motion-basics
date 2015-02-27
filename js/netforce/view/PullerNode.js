@@ -158,10 +158,10 @@ define( function( require ) {
         }
         else if ( keyCode === Input.KEY_ESCAPE ) {
           focusContext = Input.focusContexts[ Input.focusContexts.length - 1 ];
-          Input.popFocusContext( focusContext );
+          //Input.popFocusContext( focusContext );
 
           model.pullers.forEach( function( puller ) {
-            puller.focusable = false;
+            //puller.focusable = false;
           } );
         }
         else if ( keyCode === Input.KEY_TAB ) {
@@ -173,10 +173,10 @@ define( function( require ) {
             var shiftPressed = Input.pressedKeys.indexOf( Input.KEY_SHIFT ) >= 0;
             if ( !shiftPressed ) {
               focusContext = Input.focusContexts[ Input.focusContexts.length - 1 ];
-              Input.popFocusContext( focusContext );
+              //Input.popFocusContext( focusContext );
 
               model.pullers.forEach( function( puller ) {
-                puller.focusable = false;
+                //puller.focusable = false;
               } );
 
               Input.moveFocus( +1 );

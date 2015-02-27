@@ -15,6 +15,7 @@ define( function( require ) {
   var Knot = require( 'FORCES_AND_MOTION_BASICS/netforce/model/Knot' );
   var Vector2 = require( 'DOT/Vector2' );
   var Cart = require( 'FORCES_AND_MOTION_BASICS/netforce/model/Cart' );
+  var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
 
   /**
    * Constructor for the net force model.
@@ -37,7 +38,7 @@ define( function( require ) {
       //User settings
       showSumOfForces: false,
       showValues: false,
-      volumeOn: false
+      volumeOn: true
     } );
 
     this.timeProperty.setSendPhetEvents( false );
@@ -97,6 +98,7 @@ define( function( require ) {
     this.numberPullersAttachedProperty.link( function() {netForceModel.netForce = netForceModel.getNetForce();} );
     this.numberPullersAttachedProperty.link( function() {netForceModel.leftForce = netForceModel.getLeftForce();} );
     this.numberPullersAttachedProperty.link( function() {netForceModel.rightForce = netForceModel.getRightForce();} );
+
   }
 
   return inherit( PropertySet, NetForceModel, {

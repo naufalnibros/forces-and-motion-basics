@@ -60,7 +60,9 @@ define( function( require ) {
     var goButton = new RoundPushButton( {
       content: wrap( goText, padX, padY, [ goText, pauseText ] ),
       baseColor: '#94b830',
-      listener: function() {model.running = true;},
+      listener: function() {
+        model.running = true;
+      },
       focusable: false//handled in the parent
     } );//green
     var pauseButton = new RoundPushButton( {
