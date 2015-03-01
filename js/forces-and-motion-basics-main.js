@@ -11,6 +11,7 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var ForcesAndMotionBasicsSim = require( 'FORCES_AND_MOTION_BASICS/ForcesAndMotionBasicsSim' );
   var forcesAndMotionBasicsAPI = require( 'FORCES_AND_MOTION_BASICS/forcesAndMotionBasicsAPI' );
+  var Input = require( 'SCENERY/input/Input' );
 
   var simOptions = {
     api: forcesAndMotionBasicsAPI,
@@ -19,16 +20,23 @@ define( function( require ) {
       softwareDevelopment: 'Sam Reid',
       team: 'Trish Loeblein, Ariel Paul, Kathy Perkins'
     },
-    textDescription: '. There is a heavily loaded cart on wheels sitting on a track. ' +
-                     'Attached to the left side of the cart is a thick 8 foot rope with 4 large knots spaced ' +
-                     'at equal intervals. Standing near this knotted rope is a group of 4 people. On the opposite ' +
-                     'side of the cart, a similar rope with 4 large knots is attached to the right side of the cart. ' +
-                     'There is another group of 4 people - they are standing near this other rope. ' +
-                     'The centre position of the cart has been marked on the ground.'
-
+    textDescription: ''
   };
 
   SimLauncher.launch( function() {
-    new ForcesAndMotionBasicsSim( simOptions ).start();
+    var sim = new ForcesAndMotionBasicsSim( simOptions );
+    sim.start();
+    var element = document.getElementById( 'simCanvas' );
+    //console.log( element );
+
+    element.appendChild( document.getElementById( 'canvasSubDom' ) );
+    for ( var i = 0; i < 8; i++ ) {
+      (function( i ) {
+
+        $( '#puller' + (i + 1) ).focus( function( e ) {
+          Input.focusedTrail = sim.netForceScreen.view.pullerNodes[ i ].getUniqueTrail();
+        } );
+      })( i );
+    }
   } );
 } );
