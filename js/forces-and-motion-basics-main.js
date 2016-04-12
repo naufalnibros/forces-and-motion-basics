@@ -18,7 +18,8 @@ define( function( require ) {
       softwareDevelopment: 'Jesse Greenberg, Sam Reid',
       team: 'Amy Rouinfar, Trish Loeblein, Kathy Perkins',
       qualityAssurance: 'Steele Dalton, Bryce Griebenow, Elise Morgan,\n\tOliver Orejola, Ben Roberts, Bryan Yoelin'
-    }
+    },
+    accessibility: true
   };
 
   SimLauncher.launch( function() {
