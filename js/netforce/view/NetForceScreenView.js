@@ -336,8 +336,9 @@ define( function( require ) {
     var flagNode = null;
     // Show the flag node when pulling is complete and update the accessible game over element in the parallel DOM
     var showFlagNode = function() {
-      flagNode = new FlagNode( model, self.layoutBounds.width / 2, 10, tandem.createTandem( 'flagNode' ) );
+      flagNode = new FlagNode( model, self.layoutBounds.width / 2, 8, tandem.createTandem( 'flagNode' ) );
       self.addChild( flagNode );
+      mockImage.moveToFront();
     };
     Property.multilink( [ model.stateProperty, model.cart.xProperty ], function( state, x ) {
       flagNode && flagNode.dispose();
