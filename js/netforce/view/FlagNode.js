@@ -23,6 +23,9 @@ define( function( require ) {
   var leftSideWinsDescriptionString = require( 'string!FORCES_AND_MOTION_BASICS/leftSideWins.description' );
   var rightSideWinsDescriptionString = require( 'string!FORCES_AND_MOTION_BASICS/rightSideWins.description' );
 
+  // background image
+  var mockupImage = require( 'image!FORCES_AND_MOTION_BASICS/mockup.png' );
+
   /**
    * Constructor for FlagNode
    *
@@ -107,7 +110,7 @@ define( function( require ) {
     updateFlagShape: function() {
       var shape = new Shape();
       var maxX = 220;
-      var maxY = 75;
+      var maxY = 60;
       var dy = ( 7 * Math.sin( this.model.time * 6 ) );
       var dx = ( 2 * Math.sin( this.model.time * 5 ) ) + 10;
       shape.moveTo( 0, 0 );

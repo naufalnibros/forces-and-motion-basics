@@ -15,6 +15,8 @@ define( function( require ) {
   var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var HSlider = require( 'SUN/HSlider' );
   var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var KnotHighlightNode = require( 'FORCES_AND_MOTION_BASICS/netforce/view/KnotHighlightNode' );
@@ -54,6 +56,9 @@ define( function( require ) {
   var pullFigureLargeRed3Image = require( 'image!FORCES_AND_MOTION_BASICS/pull_figure_lrg_RED_3.png' );
   var pullFigureSmallRed0Image = require( 'image!FORCES_AND_MOTION_BASICS/pull_figure_small_RED_0.png' );
   var pullFigureSmallRed3Image = require( 'image!FORCES_AND_MOTION_BASICS/pull_figure_small_RED_3.png' );
+
+  // background image
+  var mockupImage = require( 'image!FORCES_AND_MOTION_BASICS/mockup.png' );
 
   // strings
   var sumOfForcesString = require( 'string!FORCES_AND_MOTION_BASICS/sumOfForces' );
@@ -455,6 +460,16 @@ define( function( require ) {
         return accessiblePeer;
       }
     };
+
+    //Show the mock-up and a slider to change its transparency
+    // TODO: Remove as soon as https://github.com/phetsims/forces-and-motion-basics/issues/213 
+    // has been completed
+    var mockupOpacityProperty = new Property( 0.00 );
+    var mockImage = new Image( mockupImage, { pickable: false } );
+    mockImage.scale( this.layoutBounds.width / mockImage.width, this.layoutBounds.height / mockImage.height );
+    mockupOpacityProperty.linkAttribute( mockImage, 'opacity' );
+    this.addChild( mockImage );
+    this.addChild( new HSlider( mockupOpacityProperty, { min: 0, max: 1 }, { top: 10, left: 10 } ) );
   }
 
   forcesAndMotionBasics.register( 'NetForceScreenView', NetForceScreenView );
