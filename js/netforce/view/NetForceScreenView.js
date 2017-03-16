@@ -129,6 +129,7 @@ define( function( require ) {
       centerY: this.cartNode.height / 2,
       radius: this.cartNode.width * 0.25
     } );
+    model.showSpeedProperty.linkAttribute( speedometerNode, 'visible' );
     this.cartNode.addChild( speedometerNode );
 
     //Black caret below the cart

@@ -23,6 +23,9 @@ define( function( require ) {
   // constants
   var BUTTON_PADDING = 7; // placement padding for the reset all button and the mute button
 
+  // strings
+  var speedString = require( 'string!FORCES_AND_MOTION_BASICS/speed' );
+
   /**
    * Create the NetForceControlPanel.
    *
@@ -46,6 +49,11 @@ define( function( require ) {
         content: new Text( valuesString, _.extend( { tandem: tandem.createTandem( 'showValuesTextNode' ) }, fontOptions ) ),
         property: model.showValuesProperty,
         tandemName: 'showValuesCheckBox'
+      },
+      {
+        content: new Text( speedString, _.extend( { tandem: tandem.createTandem( 'showSumOfForcesTextNode' ) }, fontOptions ) ),
+        property: model.showSpeedProperty,
+        tandemName: 'showSpeedCheckBox'
       }
     ], {
       tandem: tandem.createTandem( 'verticalCheckBoxGroup' )

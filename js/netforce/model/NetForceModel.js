@@ -102,6 +102,11 @@ define( function( require ) {
         tandem: tandem.createTandem( 'showValuesProperty' ),
         phetioValueType: TBoolean
       },
+      showSpeed: {
+        value: false,
+        tandem: tandem.createTandem( 'showSpeedProperty' ),
+        phetioValueType: TBoolean
+      },
       volumeOn: {
         value: false,
         tandem: tandem.createTandem( 'volumeOnProperty' ),
@@ -357,6 +362,7 @@ define( function( require ) {
       this.cart.reset();
       this.knots.forEach( function( knot ) {knot.reset();} );
       this.running = false;
+      this.speedProperty.set( 0 );
       this.state = 'experimenting';
       this.trigger0( 'cart-returned' );
       this.started = false;
