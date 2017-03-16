@@ -394,11 +394,13 @@ define( function( require ) {
         this.cart.setValues( { v: newV, x: newX } );
         this.knots.forEach( function( knot ) { knot.x = knot.initX + newX; } );
 
-        //If the cart made it to the end, then stop and signify completion
-        if ( this.cart.x > 200 || this.cart.x < -200 ) {
-          this.running = false;
-          this.state = 'completed';
-        }
+        this.updateModelState();
+
+        // //If the cart made it to the end, then stop and signify completion
+        // if ( this.cart.x > 200 || this.cart.x < -200 ) {
+        //   this.running = false;
+        //   this.state = 'completed';
+        // }
       }
       this.time = this.time + dt;
     },
@@ -519,6 +521,21 @@ define( function( require ) {
       var closestOpenKnot = this.getClosestOpenKnotInDirection( puller, delta );
       if ( closestOpenKnot ) {
         this.movePullerToKnot( puller, closestOpenKnot );
+      }
+    },
+
+    /**
+     * To be called every time position changes.
+     */
+    updateModelState: function() {
+      if ( this.cart.x > 200 && this.netForceProperty.get() >= 0 ) {
+        this.stateProperty.set( 'completed' );
+      }
+      else if ( this.cart.x < -200 && this.netForceProperty.get() <= 0 ) {
+        this.stateProperty.set( 'completed' );
+      }
+      else {
+        this.stateProperty.set( 'experimenting' );
       }
     }
   } );

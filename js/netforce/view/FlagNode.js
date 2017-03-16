@@ -63,10 +63,10 @@ define( function( require ) {
     // listeners that will dispose the flag node when model is reset or cart is returned - 
     // these must also be disposed
     var resetListener = function() { self.dispose(); };
-    var cartReturnedListener = function() { self.dispose(); }
+    var cartReturnedListener = function() { self.dispose(); };
     model.on( 'reset-all', resetListener );
     model.on( 'cart-returned', cartReturnedListener );
-    
+
     this.disposeFlagNode = function() {
       self.detach();
       model.timeProperty.unlink( update );

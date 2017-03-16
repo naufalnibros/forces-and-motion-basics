@@ -329,11 +329,26 @@ define( function( require ) {
     this.addChild( this.controlPanel );
 
     // Show the flag node when pulling is complete
-    Property.multilink( [ model.stateProperty, model.cart.xProperty ], function( state, x ) {
-      if ( state === 'completed' && Math.abs( x ) > 1E-6 ) {
-        self.addChild( new FlagNode( model, self.layoutBounds.width / 2, 8, tandem.createTandem( 'flagNode' ) ) );
+    // Property.multilink( [ model.stateProperty, model.cart.xProperty ], function( state, x ) {
+    //   if ( state === 'completed' && Math.abs( x ) > 1E-6 ) {
+    //     self.addChild( new FlagNode( model, self.layoutBounds.width / 2, 8, tandem.createTandem( 'flagNode' ) ) );
+    //   }
+    // } );
+    
+    var flagNode = null;
+    model.stateProperty.link( function( state ) {
+      if ( state === 'completed' ) {
+        flagNode = new FlagNode( model, self.layoutBounds.width / 2, 8, tandem.createTandem( 'flagNode' ) );
+        self.addChild( flagNode );
       }
-    } );
+      else {
+        if ( flagNode ) {
+          flagNode.dispose();
+          flagNode = null;
+        }
+      }
+    } ); 
+    
 
     // Accessibility for reading out the total force
     var accessibleTextProperty = new Property( '', {
