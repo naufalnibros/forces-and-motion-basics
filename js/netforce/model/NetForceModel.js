@@ -180,6 +180,11 @@ define( function( require ) {
     this.numberPullersAttachedProperty.link( function() {self.leftForce = self.getLeftForce();} );
     this.numberPullersAttachedProperty.link( function() {self.rightForce = self.getRightForce();} );
 
+    // when the net force changes, update the game state
+    this.netForceProperty.link( function( netForce ) {
+      self.updateModelState();
+    } ); 
+
     tandem.addInstance( this, TNetForceModel );
   }
 
@@ -390,17 +395,15 @@ define( function( require ) {
         var newV = this.cart.v + this.getNetForce() * dt * 0.003;
         this.speedProperty.set( Math.abs( newV ) );
 
+        var oldX = this.cart.x;
         var newX = this.cart.x + newV * dt * 60.0;
         this.cart.setValues( { v: newV, x: newX } );
         this.knots.forEach( function( knot ) { knot.x = knot.initX + newX; } );
 
-        this.updateModelState();
-
-        // //If the cart made it to the end, then stop and signify completion
-        // if ( this.cart.x > 200 || this.cart.x < -200 ) {
-        //   this.running = false;
-        //   this.state = 'completed';
-        // }
+        // if the cart has made it to the end, stop and signify completion
+        if ( ( this.cart.x > 200 && oldX < 200 ) || ( oldX > -200 && this.cart.x < -200 ) ) {
+          this.state = 'completed';
+        }
       }
       this.time = this.time + dt;
     },
