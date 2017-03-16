@@ -123,7 +123,7 @@ define( function( require ) {
     this.cartNode = new CartNode( model.cart, tandem.createTandem( 'cartNode' ) );
 
     // add a speedometer to the cart
-    var speedRange = new Range( 0, 3 ); // speed range of the cart in m/s
+    var speedRange = new Range( 0, 8 ); // speed range of the cart in m/s
     var speedometerNode = new GaugeNode( model.speedProperty, speedString, speedRange, {
       centerX: this.cartNode.centerX,
       centerY: this.cartNode.height / 2,
