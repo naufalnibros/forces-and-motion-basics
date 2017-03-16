@@ -24,6 +24,8 @@ define( function( require ) {
   var FlagNode = require( 'FORCES_AND_MOTION_BASICS/netforce/view/FlagNode' );
   var NetForceControlPanel = require( 'FORCES_AND_MOTION_BASICS/netforce/view/NetForceControlPanel' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var GaugeNode = require( 'SCENERY_PHET/GaugeNode' );
+  var Range = require( 'DOT/Range' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var ForcesAndMotionBasicsLayoutBounds = require( 'FORCES_AND_MOTION_BASICS/common/view/ForcesAndMotionBasicsLayoutBounds' );
   var ReadoutArrow = require( 'FORCES_AND_MOTION_BASICS/common/view/ReadoutArrow' );
@@ -66,6 +68,7 @@ define( function( require ) {
   var rightString = require( 'string!FORCES_AND_MOTION_BASICS/right' );
   var groupString = require( 'string!FORCES_AND_MOTION_BASICS/group' );
   var pullerString = require( 'string!FORCES_AND_MOTION_BASICS/puller' );
+  var speedString = require( 'string!FORCES_AND_MOTION_BASICS/speed' );
 
   // audio
   var golfClapSound = require( 'audio!FORCES_AND_MOTION_BASICS/golf-clap' );
@@ -118,6 +121,15 @@ define( function( require ) {
     } ) );
 
     this.cartNode = new CartNode( model.cart, tandem.createTandem( 'cartNode' ) );
+
+    // add a speedometer to the cart
+    var speedRange = new Range( 0, 3 ); // speed range of the cart in m/s
+    var speedometerNode = new GaugeNode( model.speedProperty, speedString, speedRange, {
+      centerX: this.cartNode.centerX,
+      centerY: this.cartNode.height / 2,
+      radius: this.cartNode.width * 0.25
+    } );
+    this.cartNode.addChild( speedometerNode );
 
     //Black caret below the cart
     var layoutCenterX = this.layoutBounds.width / 2;
