@@ -127,7 +127,11 @@ define( function( require ) {
     var speedometerNode = new GaugeNode( model.speedProperty, speedString, speedRange, {
       centerX: this.cartNode.centerX,
       centerY: this.cartNode.height / 2,
-      radius: this.cartNode.width * 0.25
+      radius: this.cartNode.width * 0.25,
+      majorTickLength: 8,
+      minorTickLength: 4,
+      majorTickLineWidth: 1,
+      maxLabelWidthScale: 1.0
     } );
     model.showSpeedProperty.linkAttribute( speedometerNode, 'visible' );
     this.cartNode.addChild( speedometerNode );
